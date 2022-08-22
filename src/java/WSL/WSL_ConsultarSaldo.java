@@ -31,17 +31,17 @@ public class WSL_ConsultarSaldo {
      *Este metodo consulta los datos d ela cuenta que tiene un cliente
      * 
      * @param idCuenta, Se requiere el id para saber el saldo
-     * @return CuentaVO, se retorna el objeto que se consulto
+     * @return String, se retorna el saldo que tiene el usuario en la cuenta
      */
     @WebMethod(operationName = "consultarDinero")
-    public CuentaVO consultarDinero(@WebParam(name = "id") String idCuenta) {
+    public String consultarDinero(@WebParam(name = "id") String idCuenta) {
         CuentaDAO cuentaDao = new CuentaDAO();
         CuentaVO cuentaVo = null;
 
         cuentaVo = cuentaDao.consultarCuentaPorId(idCuenta);
 
-//        return String.format("%.2f", Float.parseFloat(cuentaVo.getSaldo()));
-        return cuentaVo;
+        return String.format("%.2f", Float.parseFloat(cuentaVo.getSaldo()));
+//        return cuentaVo;
     }
 
     /**
@@ -49,20 +49,17 @@ public class WSL_ConsultarSaldo {
      * 
      * @param email, correo de inicio de sesion
      * @param pass, contraseña para iniciar sesion
-     * @return UsuarioVO, los datos del usuario que inicio sesion
+     * @return boolean, retorna si el usuario existe o no en la bd
      */
     @WebMethod(operationName = "iniciarSesion")
-    public UsuarioVO iniciarSesion(@WebParam(name = "email") String email, @WebParam(name = "pass") String pass) {
+    public boolean iniciarSesion(@WebParam(name = "email") String email, @WebParam(name = "pass") String pass) {
         UsuarioDAO cuentaDao = new UsuarioDAO();
         UsuarioVO usuarioVo = null;
 
         usuarioVo = cuentaDao.login(email, pass);
 
-        if (usuarioVo == null) {
-            usuarioVo = new UsuarioVO(null, null, null, null);
-        }
-
-        return usuarioVo;
+        // Se comprueba si el usuario existe en la bd
+        return usuarioVo != null;
     }
 
     /**
