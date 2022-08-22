@@ -34,13 +34,13 @@ public class WSL_ConsultarSaldo {
      * @return String, se retorna el saldo que tiene el usuario en la cuenta
      */
     @WebMethod(operationName = "consultarDinero")
-    public String consultarDinero(@WebParam(name = "id") String idCuenta) {
+    public double consultarDinero(@WebParam(name = "id") String idCuenta) {
         CuentaDAO cuentaDao = new CuentaDAO();
         CuentaVO cuentaVo = null;
 
         cuentaVo = cuentaDao.consultarCuentaPorId(idCuenta);
 
-        return String.format("%.2f", Float.parseFloat(cuentaVo.getSaldo()));
+        return Double.parseDouble(cuentaVo.getSaldo());
 //        return cuentaVo;
     }
 
